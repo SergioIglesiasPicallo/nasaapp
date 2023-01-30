@@ -1,46 +1,31 @@
 const router = require('express').Router()
-const { getUserById, getUsersList, createUser, removeUser, updateUser, toggleNasaToFavorite } = require('../controllers/user')
+const {getDataroverList, getDataroverById, createDatarover, removeDatarover,updateDatarover} = require('../controllers/nc')
 
-router.get('/', async (request, response) => {
+router.get('/', async (req, response) => {
     try {
-        const users = await getUsersList()
-        response.status(200).json(users)
+        const data = await getDataroverList()
+        response.status(200).json(data)
     } catch (error) {
         response.status(500)
     }
 })
-
 router.get('/:id', async (request, response) => {
     try {
         const { id } = request.params
-        const user = await getUserById(id)
+        const user = await getDataroverById(id)
         response.status(200).json(user)
     } catch (error) {
         response.status(500)
     }
 })
-
 router.post('/', async (request, response) => {
     try {
         const data = request.body
         console.log(data)
-        const user = await createUser(data)
+        const user = await createDatarover(data)
         response.status(200).json(user)
     } catch (error) {
         response.status(500).json(error)
-    }
-})
-router.post('/toggle/datas/idNasa', async (request, response) => {
-    try {
-        const {idNasa} = request.params
-        console.log(data)
-        const user = await toggleNasaToFavorite({
-            idNasa: request.user.id,
-            idNasa
-        })
-        response.status(200).json(user)
-    } catch (error){
-        response.status(500).json('Favourite failed')
     }
 })
 
@@ -48,7 +33,7 @@ router.put('/:id', async (request, response) => {
     try {
         const { id } = request.params
         const data = request.body
-        const user = await updateUser(id, data)
+        const user = await updateDatarover(id, data)
         response.status(200).json(user)
     } catch (error) {
         response.status(500)
@@ -58,11 +43,23 @@ router.put('/:id', async (request, response) => {
 router.delete('/:id', async (request, response) => {
     try {
         const { id } = request.params
-        await removeUser(id)
+        await removeDatarover(id)
         response.status(200).json(true)
     } catch (error) {
         response.status(500)
     }
 })
 
+
 module.exports = router
+
+
+
+
+
+
+
+
+
+
+

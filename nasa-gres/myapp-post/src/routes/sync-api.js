@@ -2,7 +2,7 @@ const router = require('express').Router();
 const apising = require('../services/api');
 
 
-router.get('/', async (request, response) => {
+router.get('/', async (response) => {
     try {
         const nasaApi = await apising()
         console.log(nasaApi.length);
